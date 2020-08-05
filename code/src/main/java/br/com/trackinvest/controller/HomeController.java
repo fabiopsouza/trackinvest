@@ -1,11 +1,9 @@
 package br.com.trackinvest.controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.net.URL;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.io.FileUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -57,12 +54,7 @@ public class HomeController {
 	public String track(Model model, Filter filter) throws IOException, ParseException {
 		
 		List<Yield> yields = new ArrayList<>();
-		
-		File file = new File("test.html");
-		FileUtils.copyURLToFile(new URL(String.format(URL_DIVIDEND, filter.getStock())), file);
-		
-		//Document page = Jsoup.connect(String.format(URL_DIVIDEND, filter.getStock())).get();
-		Document page = Jsoup.parse(file, null);
+		Document page = Jsoup.connect(String.format(URL_DIVIDEND, filter.getStock())).get();
 
 		Elements lines = page.select("#resultado tbody tr");
 		for (Element line : lines) {
