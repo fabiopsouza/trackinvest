@@ -125,12 +125,14 @@ public class HomeController {
 
 	private BigDecimal getPrice(String stock) throws IOException {
 		
-		Document page = Jsoup.connect(String.format(URL_PRICE, stock)).get();
-
-		Elements elements = page.select(".special .value");
-		String value = elements.get(0).text();
+//		Document page = Jsoup.connect(String.format(URL_PRICE, stock)).get();
+//
+//		Elements elements = page.select(".special .value");
+//		String value = elements.get(0).text();
+//		
+//		return new BigDecimal(value.replace(',', '.'));
 		
-		return new BigDecimal(value.replace(',', '.'));
+		return BigDecimal.ONE;
 	}
 
 	private Yield find(List<Yield> yields, Integer year) {
