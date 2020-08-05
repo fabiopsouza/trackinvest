@@ -1,0 +1,5 @@
+br\com\trackinvest\TrackInvestApp.class
+br\com\trackinvest\model\Yield.class
+br\com\trackinvest\controller\HomeController.class
+br\com\trackinvest\model\Filter.class
+br\com\trackinvest\model\Result.class
