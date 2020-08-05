@@ -1,10 +1,125 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Getting Started: Serving Web Content</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<title>Track Invest</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<!-- CSS only -->
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+	integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk"
+	crossorigin="anonymous">
+
+
 </head>
 <body>
-    <p>teste</p>
+	<div class="container-fluid container-sm">
+
+		<form id="trackForm" class="mt-3" th:action="@{/track}" method="post" th:object="${filter}">
+			
+			<div class="row">
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="form-group">
+						<label for="start" class="mb-0">Data Início</label>
+						<input id="start" type="text" class="form-control" placeholder="Ano Início" th:field="*{dateStart}">
+					</div>
+				</div>
+				
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="form-group">
+						<label for="end" class="mb-0">Data Fim</label>
+						<input id="end" type="text" class="form-control" placeholder="Ano Fim" th:field="*{dateEnd}">		
+					</div>
+				</div>
+				
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="form-group">
+						<label for="targetYield" class="mb-0">Dividendo Alvo</label>
+						<input id="targetYield" type="text" class="form-control" placeholder="Dividendo Alvo" th:field="*{targetYield}">
+					</div>
+				</div>
+				
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-sm-4">
+					<div class="form-check">
+						<input class="form-check-input" type="checkbox" id="groupCheck" th:field="*{group}">
+					    <label class="form-check-label" for="groupCheck">Agrupar</label>
+					</div>
+				</div>
+				
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+					<div class="form-group">
+						<label for="stock" class="mb-0">Ação</label>
+						<input id="stock" type="text" class="form-control text-uppercase" placeholder="Ação" th:field="*{stock}" autofocus>
+					</div>
+				</div>
+				
+				<div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-sm-4">
+					<button class="btn btn-outline-secondary" type="submit">Pesquisar</button>
+				</div>
+			</div>
+		</form>
+
+		<div class="card mt-3" th:if="${result}">
+		  <div class="card-body">
+		  	
+		  	<form class="form-inline" th:object="${result}">
+		  	
+		  		<label class="mr-2">Total Dividendos:&nbsp;<span class="font-weight-bold" th:text="*{total}"></span></label>
+		  		
+				<label class="mr-2">Média Dividendos:&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{average}"></span></label>
+				
+				<label class="mr-2">Yield Médio:&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{averageYield}"></span>%</label>
+				
+				<label class="mr-2">Preço Atual:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{price}"></span></label>
+				
+				<label class="mr-2">Preço Teto:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{limitPrice}"></span></label>
+				
+				<label style="padding: 5px 10px 5px 10px" th:class="${result.difference > 2} ? 'bg-success' : (${result.difference > -2} ? 'bg-warning' : 'bg-danger')">Margem:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{difference}"></span></label>
+				
+			</form>
+		  	
+		  </div>
+		</div>
+
+		<table class="table table-bordered table-striped mt-3">
+			<thead>
+				<tr>
+					<th>Data</th>
+					<th>Valor</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr th:if="${yields.empty}">
+					<td colspan="2">No Yields Available</td>
+				</tr>
+				<tr th:each="yield : ${yields}">
+					<td><span th:text="${yield.presentationDate}"></span></td>
+					<td><span th:text="${yield.value}"></span></td>
+				</tr>
+			</tbody>
+		</table>
+
+	</div>
+
+	<!-- JS, Popper.js, and jQuery -->
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+		integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+		integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+		crossorigin="anonymous"></script>
+
+	<script>
+		$('#stock').keyup(function(e){
+			if (event.keyCode === 13) { //enter
+				$('#trackForm').submit();	
+			}
+		});
+	</script>
 </body>
 </html>
