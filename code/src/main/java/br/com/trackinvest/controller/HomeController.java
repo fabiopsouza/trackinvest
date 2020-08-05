@@ -135,14 +135,7 @@ public class HomeController {
 
 	private Yield find(List<Yield> yields, Integer year) {
 		
-		for (int i = 0; i < yields.size(); i++) {
-			
-			if(yields.get(i).getDate().getYear() == year) {
-				return yields.get(i);  
-			}
-		}
-		
-		return null;
+		return yields.stream().filter(y -> y.getDate().getYear() == year).findFirst().orElse(null);
 	}
 
 	private Integer getYear(String date) {		
