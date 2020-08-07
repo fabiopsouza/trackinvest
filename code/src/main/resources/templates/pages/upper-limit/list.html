@@ -1,0 +1,68 @@
+<div th:replace="shared/header :: header"></div>
+
+<div class="container-fluid container-sm">
+
+	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-configure-stock">Configuração de Captura</button>
+	
+	<table class="table table-bordered table-striped mt-3">
+		<thead>
+			<tr>
+				<th>Ação</th>
+				<th>Total Dividendos</th>
+				<th>Média Dividendos</th>
+				<th>Yield Médio</th>
+				<th>Preço Atual</th>
+				<th>Preço Teto</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+				<td>
+					
+				</td>
+			</tr>
+		</tbody>
+	</table>
+
+</div>
+
+<!-- Modal -->
+<div th:replace="pages/upper-limit/modal-configure-stock :: modal"></div>
+
+<div th:replace="shared/footer :: footer"></div>
+
+<script>
+	$(function() {
+		$('#stock').keyup(function(e){
+			
+			if (event.keyCode === 13) { //enter
+	
+				$.post( "/upper-limit/stock/add", { symbol: $('#stock').val() }, function( id ) {
+					
+					var tr = "<tr id=" + id + "><td class=\"text-center\"><span>" + $('#stock').val().toUpperCase() + 
+						"</span></td><td class=\"text-center\"><a href=\"#\" onclick=\"deleteConfiguredStock("+ 
+								id +")\"><i class=\"fa fa-trash text-danger\"></i></a></td></tr>";
+								
+					$('#tableConfigureStocks tbody').append(tr);
+					
+					$('#stock').val('');
+				});	
+			}
+		}); 
+	});
+</script>

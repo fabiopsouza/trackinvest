@@ -5,9 +5,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.ParseException;
-import java.time.Duration;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +29,9 @@ import br.com.trackinvest.model.Yield;
 import br.com.trackinvest.scraping.Scraper;
 
 @Controller
-public class HomeController {	
+public class UpperLimitController {	
+	
+	private static final String PAGE_INDEX = "/pages/upper-limit/index";
 	
 	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
@@ -50,7 +50,7 @@ public class HomeController {
 		model.addAttribute("filter", filter);
 		model.addAttribute("yields", new ArrayList<>());
 		
-		return "home";
+		return PAGE_INDEX;
 	}
 
 	@PostMapping("/track")
@@ -96,7 +96,7 @@ public class HomeController {
 		model.addAttribute("result", calculate(yields, filter, futurePrice));
 		model.addAttribute("yields", yields);
 
-		return "home";
+		return PAGE_INDEX;
 	}
 	
 	private Result calculate(List<Yield> yields, Filter filter, Future<Elements> futurePrice) throws IOException, InterruptedException, ExecutionException {

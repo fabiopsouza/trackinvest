@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  </head>
+  <body>
+    <div th:fragment="modal">
+		<div class="modal fade modal-configure-stock" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+		  <div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		      
+		      <div class="modal-header">
+		        <h5 class="modal-title" id="modalConfigureStock">Configuração de Captura</h5>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        <table id="tableConfigureStocks" class="table table-bordered mt-3">
+					<thead>
+						<tr>
+							<th class="col-10">Symbol</th>
+							<th>Ação</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="stock : ${configuredStocks}" th:id="${stock.id}">
+							<td class="text-center">
+								<span th:text="${stock.symbol}"></span>
+							</td>
+							<td class="text-center">
+                              <a href="#" th:onclick="'deleteConfiguredStock(' + ${stock.id} + ')'">
+                                <i class="fa fa-trash text-danger"></i>
+                              </a>
+                            </td>
+						</tr>
+					</tbody>
+				</table>
+				
+				<div class="dropdown-divider"></div>
+				
+				<input id="stock" name="symbol" type="text" class="form-control text-uppercase" placeholder="AÇÃO">
+				<form id="stockForm" th:action="@{/upper-limit/stock/add}" method="post">
+					<div class="form-group">
+						
+					</div>
+				</form>
+		      </div>
+		      		      
+		    </div>
+		  </div>
+		</div>
+		
+		<script>
+			function deleteConfiguredStock(id) {
+				$.post( "/upper-limit/stock/delete", {id: id}, function( data ) {
+					$('#tableConfigureStocks #' + id).remove();
+				});
+			}
+		</script>
+    </div>
+  </body>
+</html>
