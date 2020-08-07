@@ -29,9 +29,7 @@ import br.com.trackinvest.model.Filter;
 import br.com.trackinvest.model.Result;
 import br.com.trackinvest.model.Yield;
 import br.com.trackinvest.scraping.Scraper;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Controller
 public class HomeController {	
 	
@@ -58,7 +56,6 @@ public class HomeController {
 	@PostMapping("/track")
 	public String track(Model model, Filter filter) throws IOException, ParseException, InterruptedException, ExecutionException {
 		
-		LocalDateTime startExecution = LocalDateTime.now();		
 		List<Yield> yields = new ArrayList<>();
 
 		Future<Elements> futureDividends = scraper.scrapDividend(filter.getStock());
@@ -99,8 +96,6 @@ public class HomeController {
 		model.addAttribute("result", calculate(yields, filter, futurePrice));
 		model.addAttribute("yields", yields);
 
-		log.info(Duration.between(startExecution, LocalDateTime.now()).toMillis() + "");
-		
 		return "home";
 	}
 	
