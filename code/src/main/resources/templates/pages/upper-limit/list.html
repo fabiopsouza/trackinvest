@@ -4,7 +4,11 @@
 
 	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
 	
-	<table class="table table-bordered table-striped mt-3">
+	<div id="progressContainer" class="progress" style="display: none">
+        <div id="progressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: width + '%'}" v-html="width + '%'"></div>
+    </div>
+	
+	<table id="tableStocks" class="table table-bordered table-striped mt-3">
 		<thead>
 			<tr>
 				<th>Ação</th>
@@ -54,22 +58,57 @@
 <div th:replace="shared/footer :: footer"></div>
 
 <script>
-	$(function() {
-		$('#stock').keyup(function(e){
-			
-			if (event.keyCode === 13) { //enter
+	// Abrir conexão com o socket
+	var socket = new SockJS('/track-socket');
+	stompClient = Stomp.over(socket);
+	stompClient.connect({}, function (frame) {
+	    console.log('Websoket Connected: ' + frame);
+	    
+	    stompClient.subscribe('/track-web/upper-limit-list', function (progress) {
+	    	
+	    	$('#progressBar').text(progress.body + '%');
+	        $('#progressBar').css('width', progress.body + '%');
+	        
+	        if(progress.body == 100){
+	        	setTimeout(function() {
+	        		location.reload();	
+	        	}, 500);
+	        }
+	    });
+	});
 	
-				$.post( "/upper-limit/stock/add", { symbol: $('#stock').val() }, function( id ) {
-					
-					var tr = "<tr id=" + id + "><td class=\"text-center\"><span>" + $('#stock').val().toUpperCase() + 
-						"</span></td><td class=\"text-center\"><a href=\"#\" onclick=\"deleteConfiguredStock("+ 
-								id +")\"><i class=\"fa fa-trash text-danger\"></i></a></td></tr>";
-								
-					$('#tableConfigureStocks tbody').append(tr);
-					
-					$('#stock').val('');
-				});	
-			}
-		}); 
+	// Começar o track das ações
+	$('#trackForm').on('submit', function (e) {
+        e.preventDefault();
+        
+        var filter = JSON.stringify({
+        	'dateStart': $("#start").val(),
+        	'dateEnd': $("#end").val(),
+        	'targetYield': $("#targetYield").val()
+        });
+        
+        stompClient.send("/track-app/upper-limit/list/track", {}, filter);
+        $('#trackForm').hide();
+        $('#tableStocks').hide();
+        $('#progressContainer').show();
+    });
+	
+	// Incluir ação na configuração de captura
+	$('#stock').keyup(function(e){
+		
+		if (event.keyCode === 13) { //enter
+	
+			$.post( "/upper-limit/stock/add", { symbol: $('#stock').val() }, function( id ) {
+				
+				//TODO criar tags HTML dinamicamente, sem texto
+				var tr = "<tr id=" + id + "><td class=\"text-center\"><span>" + $('#stock').val().toUpperCase() + 
+					"</span></td><td class=\"text-center\"><a href=\"#\" onclick=\"deleteConfiguredStock("+ 
+							id +")\"><i class=\"fa fa-trash text-danger\"></i></a></td></tr>";
+							
+				$('#tableConfigureStocks tbody').append(tr);
+				
+				$('#stock').val('');
+			});	
+		}
 	});
 </script>

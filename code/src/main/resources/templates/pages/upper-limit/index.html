@@ -1,6 +1,10 @@
 <div th:replace="shared/header :: header"></div>
 
 <div class="container-fluid container-sm">
+	
+	<noscript>
+		<h4 style="color: #ff0000">Esse navegador não suporta ou está com o Javascript desabilitado</h4>
+	</noscript>
 
 	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/track})"></div>	
 
@@ -49,13 +53,3 @@
 </div>
 
 <div th:replace="shared/footer :: footer"></div>
-
-<script>
-	$(function() {
-		$('#stock').keyup(function(e){
-			if (event.keyCode === 13) { //enter
-				$('#trackForm').submit();	
-			}
-		}); 
-	});
-</script>
