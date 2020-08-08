@@ -21,4 +21,6 @@ public class Yield {
 	private String presentationDate;
 	
 	private BigDecimal value;
+	
+	private String type;
 }

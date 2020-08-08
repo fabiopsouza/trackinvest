@@ -29,11 +29,11 @@
 			
 			  <div class="collapse navbar-collapse" id="navbarSupportedContent">
 			    <ul class="navbar-nav mr-auto">
-			      <li class="nav-item active">
-			        <a class="nav-link" href="/">Preço Teto<span class="sr-only">(current)</span></a>
+			      <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/' ? 'active':''}">
+			        <a class="nav-link" th:href="@{/}">Preço Teto<span class="sr-only">(current)</span></a>
 			      </li>
-			      <li class="nav-item">
-			        <a class="nav-link" href="/upper-limit/list">Preço Teto Lista</a>
+			      <li class="nav-item" th:classappend="${#httpServletRequest.getRequestURI() == '/upper-limit/list' ? 'active':''}">
+			        <a class="nav-link" th:href="@{/upper-limit/list}">Preço Teto Lista</a>
 			      </li>
 			  </div>
 			</nav>

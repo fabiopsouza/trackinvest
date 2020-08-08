@@ -14,7 +14,7 @@ import br.com.trackinvest.model.Stock;
 import br.com.trackinvest.stock.ConfigureStockListRepository;
 
 @Controller
-public class UpperLimitListController {	
+public class UpperLimitListController extends BaseController {	
 	
 	@Autowired
 	private ConfigureStockListRepository configureRepository;
@@ -24,6 +24,7 @@ public class UpperLimitListController {
 	@GetMapping("/upper-limit/list")
 	public String home(Model model) {
 		
+		model.addAttribute("filter", defaultFilter());
 		model.addAttribute("configuredStocks", configureRepository.findAll());
 		return PAGE_LIST;
 	}

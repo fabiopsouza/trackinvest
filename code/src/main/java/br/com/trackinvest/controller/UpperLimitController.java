@@ -5,8 +5,6 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.text.ParseException;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import br.com.trackinvest.model.Filter;
 import br.com.trackinvest.model.Result;
@@ -29,11 +28,9 @@ import br.com.trackinvest.model.Yield;
 import br.com.trackinvest.scraping.Scraper;
 
 @Controller
-public class UpperLimitController {	
+public class UpperLimitController extends BaseController {	
 	
 	private static final String PAGE_INDEX = "/pages/upper-limit/index";
-	
-	private DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 	
 	@Autowired
 	private Scraper scraper;
@@ -41,20 +38,14 @@ public class UpperLimitController {
 	@GetMapping("/")
 	public String home(Model model) {
 
-		Filter filter = new Filter();
-		filter.setDateStart(LocalDate.now().getYear() - 5);
-		filter.setDateEnd(LocalDate.now().getYear() - 1);
-		filter.setGroup(true);
-		filter.setTargetYield(new BigDecimal("6"));
-		
-		model.addAttribute("filter", filter);
-		model.addAttribute("yields", new ArrayList<>());
+		conditionalAttribute(model, "filter", defaultFilter());
+		conditionalAttribute(model, "yields", new ArrayList<>());
 		
 		return PAGE_INDEX;
 	}
 
 	@PostMapping("/track")
-	public String track(Model model, Filter filter) throws IOException, ParseException, InterruptedException, ExecutionException {
+	public String track(Model model, RedirectAttributes redirectAttributes, Filter filter) throws IOException, ParseException, InterruptedException, ExecutionException {
 		
 		List<Yield> yields = new ArrayList<>();
 
@@ -76,6 +67,7 @@ public class UpperLimitController {
 			}
 			
 			BigDecimal value = new BigDecimal(columns.get(1).text().replace(',', '.'));
+			String type = columns.get(2).text();
 			
 			if(filter.isGroup()) {
 				
@@ -84,19 +76,19 @@ public class UpperLimitController {
 					yield.setValue(yield.getValue().add(value));
 				}
 				else {
-					yields.add(new Yield(LocalDate.parse(date, dateFormatter), year.toString(), value));
+					yields.add(new Yield(parse(date), year.toString(), value, "PROVENTOS"));
 				}
 			}
 			else {
-				yields.add(new Yield(LocalDate.parse(date, dateFormatter), date, value));
+				yields.add(new Yield(parse(date), date, value, type));
 			}
 		}
 		
-		model.addAttribute("filter", filter);
-		model.addAttribute("result", calculate(yields, filter, futurePrice));
-		model.addAttribute("yields", yields);
-
-		return PAGE_INDEX;
+		redirectAttributes.addFlashAttribute("filter", filter);
+		redirectAttributes.addFlashAttribute("result", calculate(yields, filter, futurePrice));
+		redirectAttributes.addFlashAttribute("yields", yields);
+		
+		return "redirect:/";
 	}
 	
 	private Result calculate(List<Yield> yields, Filter filter, Future<Elements> futurePrice) throws IOException, InterruptedException, ExecutionException {

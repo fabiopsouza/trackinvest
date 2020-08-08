@@ -4,12 +4,14 @@
 
 	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-configure-stock">Configuração de Captura</button>
 	
+	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
+	
 	<table class="table table-bordered table-striped mt-3">
 		<thead>
 			<tr>
 				<th>Ação</th>
-				<th>Total Dividendos</th>
-				<th>Média Dividendos</th>
+				<th>Total Proventos</th>
+				<th>Média Proventos</th>
 				<th>Yield Médio</th>
 				<th>Preço Atual</th>
 				<th>Preço Teto</th>
