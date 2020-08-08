@@ -1,4 +1,4 @@
-package br.com.trackinvest.scraping;
+package br.com.trackinvest.service;
 
 import java.io.IOException;
 import java.util.concurrent.Future;
@@ -9,10 +9,10 @@ import org.jsoup.select.Elements;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
-public class Scraper {
+@Service
+public class ScrapService {
 
 	private static final String URL_PRICE = "https://statusinvest.com.br/acoes/%s";
 	

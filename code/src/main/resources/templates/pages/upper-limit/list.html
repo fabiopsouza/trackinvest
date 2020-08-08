@@ -2,8 +2,6 @@
 
 <div class="container-fluid container-sm">
 
-	<button type="button" class="btn btn-primary" data-toggle="modal" data-target=".modal-configure-stock">Configuração de Captura</button>
-	
 	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
 	
 	<table class="table table-bordered table-striped mt-3">
@@ -15,27 +13,34 @@
 				<th>Yield Médio</th>
 				<th>Preço Atual</th>
 				<th>Preço Teto</th>
+				<th>Diferença</th>
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
+			<tr th:if="${results.empty}">
+				<td colspan="7" class="text-center">No Results Available</td>
+			</tr>
+			<tr th:each="result : ${results}">
 				<td>
-					
+					<span th:text="${result.symbol}"></span>
 				</td>
 				<td>
-					
+					<span th:text="${result.total}"></span>
 				</td>
 				<td>
-					
+					<span th:text="${result.average}"></span>
 				</td>
 				<td>
-					
+					<span th:text="${result.averageYield}"></span>
 				</td>
 				<td>
-					
+					<span th:text="${result.price}"></span>
 				</td>
 				<td>
-					
+					<span th:text="${result.limitPrice}"></span>
+				</td>
+				<td>
+					<span th:text="${result.difference}" class="font-weight-bold" th:classappend="${result.difference > 2} ? 'text-success' : (${result.difference > -2} ? 'text-warning' : 'text-danger')"></span>
 				</td>
 			</tr>
 		</tbody>

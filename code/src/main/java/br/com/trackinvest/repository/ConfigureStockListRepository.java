@@ -1,4 +1,4 @@
-package br.com.trackinvest.stock;
+package br.com.trackinvest.repository;
 
 import org.springframework.data.repository.CrudRepository;
 

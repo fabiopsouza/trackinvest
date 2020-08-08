@@ -8,16 +8,14 @@ import javax.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 
+@Getter
+@Setter
 @Entity
 public class Stock {
 
 	@Id
-	@Getter
-	@Setter
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 	
-	@Getter
-	@Setter
 	private String symbol;
 }

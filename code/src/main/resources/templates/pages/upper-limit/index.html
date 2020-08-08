@@ -36,7 +36,7 @@
 		</thead>
 		<tbody>
 			<tr th:if="${yields.empty}">
-				<td colspan="3">No Yields Available</td>
+				<td colspan="3" class="text-center">No Yields Available</td>
 			</tr>
 			<tr th:each="yield : ${yields}">
 				<td><span th:text="${yield.presentationDate}"></span></td>
