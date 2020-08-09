@@ -2,7 +2,7 @@
 
 <div class="container-fluid container-sm">
 
-	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
+	<div th:replace="pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
 	
 	<div id="progressContainer" class="progress" style="display: none">
         <div id="progressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: width + '%'}" v-html="width + '%'"></div>

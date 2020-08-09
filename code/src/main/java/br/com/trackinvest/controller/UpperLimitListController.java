@@ -36,7 +36,7 @@ public class UpperLimitListController extends BaseController {
 	@Autowired
 	private ConfigureFilterListRepository configureFilterRepository;
 	
-	private static final String PAGE_LIST = "/pages/upper-limit/list";
+	private static final String PAGE_LIST = "pages/upper-limit/list";
 	
 	@GetMapping("/upper-limit/list")
 	public String home(Model model) {

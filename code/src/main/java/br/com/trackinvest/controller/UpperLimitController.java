@@ -19,7 +19,7 @@ import br.com.trackinvest.service.TrackService;
 @Controller
 public class UpperLimitController extends BaseController {	
 	
-	private static final String PAGE_INDEX = "/pages/upper-limit/index";
+	private static final String PAGE_INDEX = "pages/upper-limit/index";
 	
 	@Autowired
 	private TrackService service;

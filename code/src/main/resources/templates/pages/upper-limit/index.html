@@ -6,7 +6,7 @@
 		<h4 style="color: #ff0000">Esse navegador não suporta ou está com o Javascript desabilitado</h4>
 	</noscript>
 
-	<div th:replace="/pages/upper-limit/track-filter :: filter(@{/track})"></div>	
+	<div th:replace="pages/upper-limit/track-filter :: filter(@{/track})"></div>	
 
 	<div class="card mt-3" th:if="${result}">
 	  <div class="card-body">
