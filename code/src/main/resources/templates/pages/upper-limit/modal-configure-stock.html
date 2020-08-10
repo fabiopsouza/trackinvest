@@ -36,14 +36,7 @@
 					</tbody>
 				</table>
 				
-				<div class="dropdown-divider"></div>
-				
-				<input id="stock" name="symbol" type="text" class="form-control text-uppercase" placeholder="AÇÃO">
-				<form id="stockForm" th:action="@{/upper-limit/stock/add}" method="post">
-					<div class="form-group">
-						
-					</div>
-				</form>
+				<input id="stock" name="symbol" type="text" class="form-control text-uppercase" placeholder="AÇÃO" autofocus>
 		      </div>
 		      		      
 		    </div>
@@ -55,7 +48,7 @@
 				$.post( "/upper-limit/stock/delete", {id: id}, function( data ) {
 					$('#tableConfigureStocks #' + id).remove();
 				});
-			}
+			}			
 		</script>
     </div>
   </body>

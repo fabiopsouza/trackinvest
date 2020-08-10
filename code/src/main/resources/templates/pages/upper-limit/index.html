@@ -1,12 +1,54 @@
 <div th:replace="shared/header :: header"></div>
 
-<div class="container-fluid container-sm">
+<div class="container container-sm-fluid">
 	
 	<noscript>
 		<h4 style="color: #ff0000">Esse navegador não suporta ou está com o Javascript desabilitado</h4>
 	</noscript>
 
-	<div th:replace="pages/upper-limit/track-filter :: filter(@{/track})"></div>	
+	<form id="trackForm" class="mt-3" th:action="@{/track}" method="post" th:object="${filter}">
+		
+		<div class="row">
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="start" class="mb-0">Data Início</label>
+					<input id="start" type="text" class="form-control" placeholder="Ano Início" th:field="*{dateStart}">
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="end" class="mb-0">Data Fim</label>
+					<input id="end" type="text" class="form-control" placeholder="Ano Fim" th:field="*{dateEnd}">		
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="targetYield" class="mb-0">Dividendo Alvo</label>
+					<input id="targetYield" type="text" class="form-control" placeholder="Dividendo Alvo" th:field="*{targetYield}">
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-sm-4 pl-5">
+				<div class="form-check">
+					<input class="form-check-input" type="checkbox" id="groupCheck" th:field="*{group}">
+				    <label class="form-check-label" for="groupCheck">Agrupar</label>
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="stock" class="mb-0">Ação</label>
+					<input id="stock" type="text" class="form-control text-uppercase" placeholder="Ação" th:field="*{stock}" autofocus>
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-sm-4">
+				<button class="btn btn-primary" type="submit">Pesquisar</button>
+			</div>
+		</div>
+	</form>
 
 	<div class="card mt-3" th:if="${result}">
 	  <div class="card-body">

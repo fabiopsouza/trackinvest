@@ -2,7 +2,41 @@
 
 <div class="container-fluid container-sm">
 
-	<div th:replace="pages/upper-limit/track-filter :: filter(@{/upper-limit/list/track})"></div>
+	<form id="trackForm" class="mt-3" th:action="@{/upper-limit/list/track}" method="post" th:object="${filter}">
+		
+		<div class="row">
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="start" class="mb-0">Data Início</label>
+					<input id="start" type="text" class="form-control" placeholder="Ano Início" th:field="*{dateStart}">
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="end" class="mb-0">Data Fim</label>
+					<input id="end" type="text" class="form-control" placeholder="Ano Fim" th:field="*{dateEnd}">		
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<label for="targetYield" class="mb-0">Dividendo Alvo</label>
+					<input id="targetYield" type="text" class="form-control" placeholder="Dividendo Alvo" th:field="*{targetYield}">
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2">
+				<div class="form-group">
+					<button type="button" class="btn btn-primary mt-sm-4 ml-0 ml-md-4 ml-xl-5" data-toggle="modal" data-target=".modal-configure-stock">Ações</button>
+				</div>
+			</div>
+			
+			<div class="col-6 col-sm-4 col-md-3 col-lg-2 mt-sm-4">
+				<button class="btn btn-primary" type="submit">Pesquisar</button>
+			</div>
+		</div>
+	</form>
 	
 	<div id="progressContainer" class="progress" style="display: none">
         <div id="progressBar" class="progress-bar bg-primary" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" v-bind:style="{width: width + '%'}" v-html="width + '%'"></div>
