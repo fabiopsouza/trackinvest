@@ -74,8 +74,11 @@ public class TrackService {
 		}
 		
 		Result result = calculationService.calculate(yields, filter, futurePrice);
-		result.setSymbol(symbol);
-		result.setYields(yields);
+		
+		if(result != null) {
+			result.setSymbol(symbol);
+			result.setYields(yields);
+		}
 		
 		return result;
 	}

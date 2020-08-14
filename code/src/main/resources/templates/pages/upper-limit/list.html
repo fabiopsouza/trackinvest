@@ -1,4 +1,4 @@
-<div th:replace="shared/header :: header"></div>
+<div th:replace="shared/header :: header(upperLimitList)"></div>
 
 <div class="container-fluid container-sm">
 
@@ -133,6 +133,10 @@
 		if (event.keyCode === 13) { //enter
 	
 			$.post( "/upper-limit/stock/add", { symbol: $('#stock').val() }, function( id ) {
+				
+				if($('#stock').val() == -1){
+					return;
+				}
 				
 				//TODO criar tags HTML dinamicamente, sem texto
 				var tr = "<tr id=" + id + "><td class=\"text-center\"><span>" + $('#stock').val().toUpperCase() + 

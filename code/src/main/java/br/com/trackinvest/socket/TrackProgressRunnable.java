@@ -68,7 +68,9 @@ public class TrackProgressRunnable extends ProgressMonitor implements Runnable {
 				log.info("Tracking {}", stock.getSymbol());
 				
 				Result result = trackService.track(stock.getSymbol(), filter);
-				resultRepository.save(result);
+				if(result != null) {
+					resultRepository.save(result);
+				}
 				
 				updateProgress(SOCKET_ENDPOINT, i++, total);
 				

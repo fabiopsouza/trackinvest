@@ -11,6 +11,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class ScrapService {
 
@@ -24,12 +27,14 @@ public class ScrapService {
 	@Cacheable("dividends")
 	public Future<Elements> scrapDividend(String stock) throws IOException 
 	{
+		log.info("Scrap dividend of {}", stock);
 		return scrap(URL_DIVIDEND, stock, "#resultado tbody tr");
 	}
 	
 	@Async
 	public Future<Elements> scrapPrice(String stock) throws IOException 
 	{
+		log.info("Scrap price of {}", stock);
 		return scrap(URL_PRICE, stock, ".special .value");
 	}
 	

@@ -3,6 +3,7 @@ package br.com.trackinvest.controller;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.messaging.handler.annotation.MessageMapping;
@@ -63,6 +64,10 @@ public class UpperLimitListController extends BaseController {
 	@ResponseStatus(HttpStatus.OK)
 	@PostMapping("/upper-limit/stock/add")
 	public Long addStock(@RequestParam("symbol") String symbol) {
+		
+		if(StringUtils.isBlank(symbol)) {
+			return -1l;
+		}
 		
 		Stock stock = new Stock();
 		stock.setSymbol(symbol.toUpperCase());

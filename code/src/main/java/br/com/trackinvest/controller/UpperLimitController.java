@@ -5,6 +5,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,11 +38,18 @@ public class UpperLimitController extends BaseController {
 	public String track(RedirectAttributes redirectAttributes, Filter filter) 
 			throws IOException, ParseException, InterruptedException, ExecutionException {
 		
+		if(StringUtils.isBlank(filter.getStock())) {
+			return "redirect:/";
+		}
+		
 		Result result = service.track(filter);
 		
 		redirectAttributes.addFlashAttribute("filter", filter);
-		redirectAttributes.addFlashAttribute("result", result);
-		redirectAttributes.addFlashAttribute("yields", result.getYields());
+		
+		if(result != null) {
+			redirectAttributes.addFlashAttribute("result", result);
+			redirectAttributes.addFlashAttribute("yields", result.getYields());
+		}
 		
 		return "redirect:/";
 	}
