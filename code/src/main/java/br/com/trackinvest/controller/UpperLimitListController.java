@@ -47,7 +47,7 @@ public class UpperLimitListController extends BaseController {
 		
 		conditionalAttribute(model, "filter", filter);
 		model.addAttribute("configuredStocks", configureRepository.findAll());
-		model.addAttribute("results", resultRepository.findAllByOrderByDifferenceDesc());
+		model.addAttribute("results", resultRepository.findAllByOrderByAverageYieldDesc());
 		return PAGE_LIST;
 	}
 	
