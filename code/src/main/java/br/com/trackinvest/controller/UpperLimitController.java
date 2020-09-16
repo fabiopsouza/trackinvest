@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -34,6 +35,20 @@ public class UpperLimitController extends BaseController {
 		return PAGE_INDEX;
 	}
 
+	@GetMapping("/track/{stock}")
+	public String track(@PathVariable("stock") String stock, RedirectAttributes redirectAttributes) 
+			throws IOException, InterruptedException, ExecutionException {
+		
+		if(StringUtils.isBlank(stock)) {
+			return "redirect:/";
+		}
+		
+		Filter filter = defaultFilter();
+		filter.setStock(stock);
+		
+		return trackResult(redirectAttributes, filter);
+	}
+
 	@PostMapping("/track")
 	public String track(RedirectAttributes redirectAttributes, Filter filter) 
 			throws IOException, ParseException, InterruptedException, ExecutionException {
@@ -42,6 +57,11 @@ public class UpperLimitController extends BaseController {
 			return "redirect:/";
 		}
 		
+		return trackResult(redirectAttributes, filter);
+	}
+	
+	private String trackResult(RedirectAttributes redirectAttributes, Filter filter)
+			throws IOException, InterruptedException, ExecutionException {
 		Result result = service.track(filter);
 		
 		redirectAttributes.addFlashAttribute("filter", filter);

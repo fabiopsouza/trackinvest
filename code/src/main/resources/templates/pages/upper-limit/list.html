@@ -60,7 +60,9 @@
 			</tr>
 			<tr th:each="result : ${results}">
 				<td>
-					<span th:text="${result.symbol}"></span>
+					<a th:href="@{/track/{stock}(stock=${result.symbol})}">
+						<span th:text="${result.symbol}"></span>
+					</a>
 				</td>
 				<td>
 					<span th:text="${result.total}"></span>
@@ -127,7 +129,7 @@
         $('#progressContainer').show();
     });
 	
-	// Incluir ação na configuração de captura
+	// Incluir nova ação na lista de ações configuradas para captura
 	$('#stock').keyup(function(e){
 		
 		if (event.keyCode === 13) { //enter
@@ -149,4 +151,5 @@
 			});	
 		}
 	});
+	
 </script>
