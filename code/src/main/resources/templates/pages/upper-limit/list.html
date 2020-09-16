@@ -60,7 +60,7 @@
 			</tr>
 			<tr th:each="result : ${results}">
 				<td>
-					<a th:href="@{/track/{stock}(stock=${result.symbol})}">
+					<a th:href="@{/track/{stock}(stock=${result.symbol})}" target="_blank">
 						<span th:text="${result.symbol}"></span>
 					</a>
 				</td>
