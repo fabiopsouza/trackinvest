@@ -71,6 +71,10 @@
 	  	
 	  </div>
 	</div>
+	
+	<tr th:if="!${yields.empty}">
+		<div id="chart-container"></div>
+	</tr>
 
 	<table class="table table-bordered table-striped mt-3">
 		<thead>
@@ -85,8 +89,8 @@
 				<td colspan="3" class="text-center">No Yields Available</td>
 			</tr>
 			<tr th:each="yield : ${yields}">
-				<td><span th:text="${yield.presentationDate}"></span></td>
-				<td><span th:text="${yield.value}"></span></td>
+				<td class="date"><span th:text="${yield.presentationDate}"></span></td>
+				<td class="value"><span th:text="${yield.value}"></span></td>
 				<td><span th:text="${yield.type}"></span></td>
 			</tr>
 		</tbody>
@@ -95,3 +99,43 @@
 </div>
 
 <div th:replace="shared/footer :: footer"></div>
+
+<script>
+	var chartData = [];
+	chartData.push(['Year', 'Dividend']);
+	
+	$('table tbody tr').each(function( index ) {
+	
+		var date = $( this ).find('.date').text();
+		var value = $( this ).find('.value').text();
+		
+		if(date != "" && value != NaN){
+			chartData.push([date, parseFloat(value)]);	
+		}
+	});
+
+	//Load the Visualization API and the corechart package.
+	google.charts.load('current', {'packages':['corechart']});
+
+	if(chartData.length > 1){
+		// Set a callback to run when the Google Visualization API is loaded.
+		google.charts.setOnLoadCallback(drawChart);
+	}
+	
+	// Callback that creates and populates a data table,
+    // instantiates the pie chart, passes in the data and
+    // draws it.
+    function drawChart() {
+
+    	// Define the chart to be drawn.
+        var data = google.visualization.arrayToDataTable(chartData);
+
+        var options = {
+        		
+        }; 
+
+        // Instantiate and draw the chart.
+        var chart = new google.visualization.ColumnChart(document.getElementById('chart-container'));
+        chart.draw(data, options);
+    }
+</script>
