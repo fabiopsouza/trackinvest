@@ -104,7 +104,7 @@
 	var chartData = [];
 	chartData.push(['Year', 'Dividend']);
 	
-	$('table tbody tr').each(function( index ) {
+	$($('table tbody tr').get().reverse()).each(function( index ) {
 	
 		var date = $( this ).find('.date').text();
 		var value = $( this ).find('.value').text();
