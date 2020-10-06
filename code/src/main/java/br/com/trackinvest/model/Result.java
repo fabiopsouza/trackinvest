@@ -33,15 +33,19 @@ public class Result {
 	
 	private BigDecimal total;
 	
+	private BigDecimal liquidTotal;
+	
 	private BigDecimal average;
 	
+	private BigDecimal liquidAverage;
+	
 	private BigDecimal averageYield;
+	
+	private BigDecimal liquidAverageYield;
 	
 	private BigDecimal price;
 	
 	private BigDecimal limitPrice;
-	
-	private BigDecimal difference;
 	
 	@Transient
 	public List<Yield> yields;

@@ -48,15 +48,14 @@
 				<th>Ação</th>
 				<th>Total Proventos</th>
 				<th>Média Proventos</th>
-				<th>Yield Médio</th>
 				<th>Preço Atual</th>
 				<th>Preço Teto</th>
-				<th>Diferença</th>
+				<th>Yield Médio</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:if="${results.empty}">
-				<td colspan="7" class="text-center">No Results Available</td>
+				<td colspan="6" class="text-center">No Results Available</td>
 			</tr>
 			<tr th:each="result : ${results}">
 				<td>
@@ -71,16 +70,13 @@
 					<span th:text="${result.average}"></span>
 				</td>
 				<td>
-					<span th:text="${result.averageYield}"></span>
-				</td>
-				<td>
 					<span th:text="${result.price}"></span>
 				</td>
 				<td>
 					<span th:text="${result.limitPrice}"></span>
 				</td>
 				<td>
-					<span th:text="${result.difference}" class="font-weight-bold" th:classappend="${result.difference > 2} ? 'text-success' : (${result.difference > -2} ? 'text-warning' : 'text-danger')"></span>
+					<span th:text="${result.liquidAverageYield}" class="font-weight-bold" th:classappend="${result.liquidAverageYield > 8} ? 'text-success' : (${result.liquidAverageYield > 6} ? 'text-warning' : 'text-danger')"></span>
 				</td>
 			</tr>
 		</tbody>

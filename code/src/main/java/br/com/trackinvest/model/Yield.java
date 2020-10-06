@@ -22,5 +22,7 @@ public class Yield {
 	
 	private BigDecimal value;
 	
+	private BigDecimal liquidValue;
+	
 	private String type;
 }

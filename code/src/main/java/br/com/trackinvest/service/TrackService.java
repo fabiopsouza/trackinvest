@@ -58,18 +58,22 @@ public class TrackService {
 			BigDecimal value = new BigDecimal(columns.get(1).text().replace(',', '.'));
 			String type = columns.get(2).text();
 			
+			//TODO mecanismo a parte que avisa por e-mail caso venha dominio diferente do conhecido
+			BigDecimal liquidValue = calculationService.getLiquidValueWhenJscp(value, type);
+				
 			if(filter.isGroup()) {
 				
 				Yield yield = find(yields, year);
 				if(yield != null) {
 					yield.setValue(yield.getValue().add(value));
+					yield.setLiquidValue(yield.getLiquidValue().add(liquidValue));
 				}
 				else {
-					yields.add(new Yield(parse(date), year.toString(), value, "PROVENTOS"));
+					yields.add(new Yield(parse(date), year.toString(), value, liquidValue, "PROVENTOS"));
 				}
 			}
 			else {
-				yields.add(new Yield(parse(date), date, value, type));
+				yields.add(new Yield(parse(date), date, value, liquidValue, type));
 			}
 		}
 		

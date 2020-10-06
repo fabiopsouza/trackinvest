@@ -8,5 +8,5 @@ import br.com.trackinvest.model.Result;
 
 public interface ResultRepository extends CrudRepository<Result, Long> {
 
-	public List<Result> findAllByOrderByAverageYieldDesc();
+	public List<Result> findAllByOrderByLiquidAverageYieldDesc();
 }

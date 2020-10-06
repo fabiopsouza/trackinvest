@@ -55,17 +55,21 @@
 	  	
 	  	<form class="form-inline" th:object="${result}">
 	  	
-	  		<label class="mr-2">Total Proventos:&nbsp;<span class="font-weight-bold" th:text="*{total}"></span></label>
+	  		<label class="mr-2">Total Proventos (Bruto):&nbsp;<span class="font-weight-bold" th:text="*{total}"></span></label>
 	  		
-			<label class="mr-2">Média Proventos:&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{average}"></span></label>
+	  		<label class="mr-2">Total Proventos (Liquido):&nbsp;<span class="font-weight-bold" th:text="*{liquidTotal}"></span></label>
+	  		
+			<label class="mr-2">Média Proventos (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{average}"></span></label>
 			
-			<label class="mr-2">Yield Médio:&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{averageYield}"></span>%</label>
+			<label class="mr-2">Média Proventos (Liquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverage}"></span></label>
 			
 			<label class="mr-2">Preço Atual:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{price}"></span></label>
 			
 			<label class="mr-2">Preço Teto:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{limitPrice}"></span></label>
 			
-			<label style="padding: 5px 10px 5px 10px" th:class="${result.difference > 2} ? 'bg-success' : (${result.difference > -2} ? 'bg-warning' : 'bg-danger')">Margem:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{difference}"></span></label>
+			<label class="mr-2">Yield Médio (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{averageYield}"></span></label>
+			
+			<label style="padding: 5px 10px 5px 10px" th:class="${result.liquidAverageYield > 8} ? 'bg-success' : (${result.liquidAverageYield > 6} ? 'bg-warning' : 'bg-danger')">Yield Médio (Líquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverageYield}">%</span></label>
 			
 		</form>
 	  	
@@ -80,17 +84,19 @@
 		<thead>
 			<tr>
 				<th>Data</th>
-				<th>Valor</th>
+				<th>Valor Bruto</th>
+				<th>Valor Liquido</th>
 				<th>Tipo</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr th:if="${yields.empty}">
-				<td colspan="3" class="text-center">No Yields Available</td>
+				<td colspan="4" class="text-center">No Yields Available</td>
 			</tr>
 			<tr th:each="yield : ${yields}">
 				<td class="date"><span th:text="${yield.presentationDate}"></span></td>
 				<td class="value"><span th:text="${yield.value}"></span></td>
+				<td class="liquidValue"><span th:text="${yield.liquidValue}"></span></td>
 				<td><span th:text="${yield.type}"></span></td>
 			</tr>
 		</tbody>
@@ -102,15 +108,15 @@
 
 <script>
 	var chartData = [];
-	chartData.push(['Year', 'Dividend']);
+	chartData.push(['Ano', 'Líquido', 'Líquido (Linha)']);
 	
 	$($('table tbody tr').get().reverse()).each(function( index ) {
 	
 		var date = $( this ).find('.date').text();
-		var value = $( this ).find('.value').text();
+		var liquidValue = $( this ).find('.liquidValue').text();
 		
-		if(date != "" && value != NaN){
-			chartData.push([date, parseFloat(value)]);	
+		if(date != "" && liquidValue != NaN){
+			chartData.push([date, parseFloat(liquidValue), parseFloat(liquidValue)]);	
 		}
 	});
 
@@ -131,7 +137,11 @@
         var data = google.visualization.arrayToDataTable(chartData);
 
         var options = {
-        		
+        	isStacked: true,
+        	series: {
+        	    0:{color:'#6fa7e3'},
+        	    1:{color:'#0069d9', type: 'line'}
+        	  }
         }; 
 
         // Instantiate and draw the chart.
