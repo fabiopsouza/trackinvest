@@ -53,32 +53,47 @@
 	<div class="card mt-3" th:if="${result}">
 	  <div class="card-body">
 	  	
-	  	<form class="form-inline" th:object="${result}">
+	  	<form class="form-inline row" th:object="${result}">
 	  	
-	  		<label class="mr-2">Total Proventos (Bruto):&nbsp;<span class="font-weight-bold" th:text="*{total}"></span></label>
+	  		<div class="col-12 col-md-3">
+	  			<label>Proventos (Bruto):&nbsp;<span class="font-weight-bold" th:text="*{total}"></span></label>
+	  		</div>
 	  		
-	  		<label class="mr-2">Total Proventos (Liquido):&nbsp;<span class="font-weight-bold" th:text="*{liquidTotal}"></span></label>
+	  		<div class="col-12 col-md-3">
+	  			<label>Proventos (Liquido):&nbsp;<span class="font-weight-bold" th:text="*{liquidTotal}"></span></label>
+	  		</div>
 	  		
-			<label class="mr-2">Média Proventos (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{average}"></span></label>
-			
-			<label class="mr-2">Média Proventos (Liquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverage}"></span></label>
-			
-			<label class="mr-2">Preço Atual:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{price}"></span></label>
-			
-			<label class="mr-2">Preço Teto:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{limitPrice}"></span></label>
-			
-			<label class="mr-2">Yield Médio (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{averageYield}"></span></label>
-			
-			<label style="padding: 5px 10px 5px 10px" th:class="${result.liquidAverageYield > 8} ? 'bg-success' : (${result.liquidAverageYield > 6} ? 'bg-warning' : 'bg-danger')">Yield Médio (Líquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverageYield}">%</span></label>
-			
+	  		<div class="col-12 col-md-3">
+	  			<label>Preço Atual:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{price}"></span></label>
+	  		</div>
+	  		
+	  		<div class="col-12 col-md-3">
+	  			<label>Yield Médio (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{averageYield}"></span></label>
+	  		</div>
+	  	
+	  		<div class="col-12 col-md-3">
+	  			<label>Média (Bruto):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{average}"></span></label>
+	  		</div>
+	  		
+	  		<div class="col-12 col-md-3">
+	  			<label>Média (Liquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverage}"></span></label>
+	  		</div>
+	  		
+	  		<div class="col-12 col-md-3">
+	  			<label>Preço Teto:&nbsp;R$&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{limitPrice}"></span></label>
+	  		</div>
+	  		
+	  		<div class="col-12 col-md-3">
+	  			<label style="padding: 5px 10px 5px 10px" th:class="${result.liquidAverageYield > 8} ? 'bg-success' : (${result.liquidAverageYield > 6} ? 'bg-warning' : 'bg-danger')">Yield Médio (Líquido):&nbsp;<span class="font-weight-bold mt-3 mt-sm-0" th:text="*{liquidAverageYield}">%</span></label>
+	  		</div>
 		</form>
 	  	
 	  </div>
 	</div>
 	
 	<tr th:if="!${yields.empty}">
-		<div id="chart-container"></div>
 	</tr>
+		<div id="chart-container"></div>
 
 	<table class="table table-bordered table-striped mt-3">
 		<thead>
