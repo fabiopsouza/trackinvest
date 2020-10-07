@@ -76,7 +76,7 @@
 					<span th:text="${result.limitPrice}"></span>
 				</td>
 				<td>
-					<span th:text="${result.liquidAverageYield}" class="font-weight-bold" th:classappend="${result.liquidAverageYield > 8} ? 'text-success' : (${result.liquidAverageYield > 6} ? 'text-warning' : 'text-danger')"></span>
+					<span th:text="${result.liquidAverageYield} + '%'" class="font-weight-bold" th:classappend="${result.liquidAverageYield > 7} ? 'text-success' : (${result.liquidAverageYield > 6} ? 'text-warning' : 'text-danger')"></span>
 				</td>
 			</tr>
 		</tbody>
