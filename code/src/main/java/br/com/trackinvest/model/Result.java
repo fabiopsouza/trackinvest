@@ -29,6 +29,8 @@ public class Result {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 	
+	private Boolean selected;
+	
 	private String symbol;
 	
 	private BigDecimal total;

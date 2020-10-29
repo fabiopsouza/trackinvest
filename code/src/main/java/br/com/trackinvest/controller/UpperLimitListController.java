@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.trackinvest.model.Filter;
+import br.com.trackinvest.model.Result;
 import br.com.trackinvest.model.Stock;
 import br.com.trackinvest.repository.ConfigureFilterListRepository;
 import br.com.trackinvest.repository.ConfigureStockListRepository;
@@ -81,5 +82,15 @@ public class UpperLimitListController extends BaseController {
 	public void deleteStock(@RequestParam("id") Long id) {
 		
 		configureRepository.deleteById(id);
+	}
+	
+	@ResponseStatus(HttpStatus.OK)
+	@PostMapping("/upper-limit/stock/select")
+	public void selectStock(@RequestParam("id") Long id, @RequestParam("checked") Boolean checked) {
+		
+		Result result = resultRepository.findById(id).get();
+		result.setSelected(checked);
+		
+		resultRepository.save(result);
 	}
 }
