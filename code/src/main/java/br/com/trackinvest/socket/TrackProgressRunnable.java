@@ -14,6 +14,7 @@ import br.com.trackinvest.model.Stock;
 import br.com.trackinvest.repository.ConfigureFilterListRepository;
 import br.com.trackinvest.repository.ConfigureStockListRepository;
 import br.com.trackinvest.repository.ResultRepository;
+import br.com.trackinvest.repository.SelectedStockRepository;
 import br.com.trackinvest.service.TrackService;
 import lombok.Getter;
 import lombok.Setter;
@@ -30,6 +31,9 @@ public class TrackProgressRunnable extends ProgressMonitor implements Runnable {
 	private Filter filter;
 	
 	@Autowired
+	private TrackService trackService;
+	
+	@Autowired
 	private ResultRepository resultRepository;
 	
 	@Autowired
@@ -39,7 +43,7 @@ public class TrackProgressRunnable extends ProgressMonitor implements Runnable {
 	private ConfigureFilterListRepository configureFilterRepository;
 	
 	@Autowired
-	private TrackService trackService;
+	private SelectedStockRepository selectedStockRepository;
 	
 	@Override
 	@SuppressWarnings("unchecked")
@@ -69,6 +73,10 @@ public class TrackProgressRunnable extends ProgressMonitor implements Runnable {
 				
 				Result result = trackService.track(stock.getSymbol(), filter);
 				if(result != null) {
+					
+					boolean isSelected = selectedStockRepository.existsBySymbol(stock.getSymbol());
+					result.setSelected(isSelected);
+					
 					resultRepository.save(result);
 				}
 				

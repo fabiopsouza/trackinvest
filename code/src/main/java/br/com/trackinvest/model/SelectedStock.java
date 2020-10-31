@@ -13,7 +13,7 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-public class Stock {
+public class SelectedStock {
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class Stock {
 	
 	private String symbol;
 	
-	public Stock(String symbol) {
+	public SelectedStock(String symbol) {
 		
 		this.symbol = symbol;
 	}

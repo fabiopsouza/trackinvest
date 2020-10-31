@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import br.com.trackinvest.model.Filter;
 import br.com.trackinvest.model.Result;
+import br.com.trackinvest.model.SelectedStock;
 import br.com.trackinvest.model.Stock;
 import br.com.trackinvest.repository.ConfigureFilterListRepository;
 import br.com.trackinvest.repository.ConfigureStockListRepository;
 import br.com.trackinvest.repository.ResultRepository;
+import br.com.trackinvest.repository.SelectedStockRepository;
 import br.com.trackinvest.socket.TrackProgressRunnable;
 
 @Controller
@@ -37,6 +39,9 @@ public class UpperLimitListController extends BaseController {
 	
 	@Autowired
 	private ConfigureFilterListRepository configureFilterRepository;
+	
+	@Autowired
+	private SelectedStockRepository selectedStockRepository;
 	
 	private static final String PAGE_LIST = "pages/upper-limit/list";
 	
@@ -92,5 +97,12 @@ public class UpperLimitListController extends BaseController {
 		result.setSelected(checked);
 		
 		resultRepository.save(result);
+	
+		if(checked) {
+			selectedStockRepository.save(new SelectedStock(result.getSymbol()));
+		}
+		else {
+			selectedStockRepository.deleteBySymbol(result.getSymbol());
+		}
 	}
 }
